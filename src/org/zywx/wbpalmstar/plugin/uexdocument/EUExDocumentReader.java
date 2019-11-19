@@ -8,9 +8,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
+import org.zywx.wbpalmstar.base.BUtility;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
 import org.zywx.wbpalmstar.engine.universalex.EUExUtil;
@@ -63,13 +63,9 @@ public class EUExDocumentReader extends EUExBase {
 		String type = DocumentUtils.getMIMEType(file);
 		Uri uri;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//			 uri = FileProvider.getUriForFile(mContext, "app的包名.fileProvider", photoFile);
-			uri = FileProvider.getUriForFile(
-					mContext,
-					mContext.getPackageName()+".fileprovider",
-					file);
+			uri = BUtility.getUriForFileWithFileProvider(mContext, file.getAbsolutePath());
 		} else {
-			 uri = Uri.fromFile(file);
+			uri = Uri.fromFile(file);
 		}
 		intent.setDataAndType(uri, type);
 		try {
