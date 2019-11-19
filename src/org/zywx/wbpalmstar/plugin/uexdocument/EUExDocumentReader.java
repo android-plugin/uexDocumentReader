@@ -1,11 +1,5 @@
 package org.zywx.wbpalmstar.plugin.uexdocument;
 
-import java.io.File;
-
-import org.zywx.wbpalmstar.engine.EBrowserView;
-import org.zywx.wbpalmstar.engine.universalex.EUExBase;
-import org.zywx.wbpalmstar.engine.universalex.EUExUtil;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -13,7 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.widget.Toast;
+
+import org.zywx.wbpalmstar.engine.EBrowserView;
+import org.zywx.wbpalmstar.engine.universalex.EUExBase;
+import org.zywx.wbpalmstar.engine.universalex.EUExUtil;
+
+import java.io.File;
 
 public class EUExDocumentReader extends EUExBase {
 
@@ -57,11 +59,25 @@ public class EUExDocumentReader extends EUExBase {
 
 		Intent intent = new Intent();
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 		String type = DocumentUtils.getMIMEType(file);
-		intent.setDataAndType(Uri.fromFile(file), type);
+		Uri uri;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//			 uri = FileProvider.getUriForFile(mContext, "app的包名.fileProvider", photoFile);
+			uri = FileProvider.getUriForFile(
+					mContext,
+					mContext.getPackageName()+".fileprovider",
+					file);
+		} else {
+			 uri = Uri.fromFile(file);
+		}
+		intent.setDataAndType(uri, type);
 		try {
 			intent.setAction(Intent.ACTION_VIEW);
-			startActivity(Intent.createChooser(intent, null));
+			intent.addCategory("android.intent.category.DEFAULT");
+			intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+			Intent chooser = Intent.createChooser(intent, null);
+			startActivity(chooser);
 		} catch (ActivityNotFoundException e) {
 			e.printStackTrace();
 		}
