@@ -2,7 +2,7 @@
 <uexplugins>
     <plugin
          className="org.zywx.wbpalmstar.plugin.uexdocument.EUExDocumentReader"
-         uexName="uexDocumentReader" version="3.0" build="0">
+         uexName="uexDocumentReader">
         <method name="openDocumentReader"/>
         <method name="close"/>
     </plugin>

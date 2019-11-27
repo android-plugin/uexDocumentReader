@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexDocumentReader" version="4.0.0" build="3">
-        <info>3:4.0插件</info>
+        uexName="uexDocumentReader" version="4.4.5" build="2019111901">
+        <info>5:(依赖引擎4.4.27+)解决与其他插件可能存在的FileProvider冲突问题</info>
+        <build>4:修改插件在android 10上打不开文件</build>
+        <build>3:4.0插件</build>
         <build>2:修改打开不存在的文件时崩溃的问题</build>
         <build>1:国际化</build>
         <build>0:阅读器功能插件</build>

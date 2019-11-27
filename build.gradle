@@ -1,9 +1,10 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
     }
 }
 
@@ -14,21 +15,29 @@ repositories {
     flatDir {
         dirs 'libs'
     }
+    google()
+    maven {
+        url 'https://raw.githubusercontent.com/android-plugin/mvn-repo/master/'
+    }
 }
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-    compile(name: "Engine-system-release-4.0.0", ext: 'aar')
+    implementation fileTree(dir: 'libs', include: '*.jar')
+    implementation 'org.appcan:engine:4.4.27'//依赖远程引擎
 }
 
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 29
+//    buildToolsVersion "28.0.3"
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-
+    lintOptions {
+        disable 'MissingTranslation'
+        disable 'GoogleAppIndexingWarning'
+        disable 'HardcodedDebugMode'
+    }
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -46,9 +55,9 @@ android {
         release.setRoot('build-types/release')
     }
     defaultConfig {
-        applicationId 'org.zywx.wbpalmstar.widgetone.uexDocumentReader'
-        minSdkVersion 14
-        targetSdkVersion 14
+        applicationId 'org.zywx.wbpalmstar.plugin.uexDocumentReader'
+        minSdkVersion 18
+        targetSdkVersion 28
         multiDexEnabled true
     }
 }
